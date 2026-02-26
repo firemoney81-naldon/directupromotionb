@@ -723,7 +723,6 @@
 
 	
 
-
 <footer style="font-size: 11px; color: #888; padding: 30px 20px; text-align: center; line-height: 1.8; font-family: sans-serif;">
   <div style="margin-bottom: 8px;">
     <!-- 봇이 JS를 실행 못해도 기본값은 읽어갈 수 있게 연도를 미리 적어둡니다 -->
@@ -758,9 +757,12 @@
       const second = String(kstDate.getSeconds()).padStart(2, '0');
 
       // YYYY-MM-DD 형식 (footer 보여주기용)
-      const formattedDate = ‘차량 보험’ 비교${year}-${month}-${day}‘차량 보험’ 비교;
+      // ********** 변경된 부분: 백틱 대신 + 기호 사용 **********
+      const formattedDate = year + '-' + month + '-' + day;
+      
       // ISO 8601 형식 (검색엔진이 가장 좋아하는 표준 포맷)
-      const isoDateTime = ‘차량 보험’ 비교${year}-${month}-${day}T${hour}:${minute}:${second}+09:00‘차량 보험’ 비교;
+      // ********** 변경된 부분: 백틱 대신 + 기호 사용 **********
+      const isoDateTime = year + '-' + month + '-' + day + 'T' + hour + ':' + minute + ':' + second + '+09:00';
       
       return { year, formattedDate, isoDateTime };
     }
@@ -813,16 +815,18 @@
     // ----------------------------------------------------------------------
     // 3. SEO 메타 태그 업데이트 (Naver/Google 공통)
     // ----------------------------------------------------------------------
-    function setMetaTag(attrType, attrName, content) {
-      let selector = ‘차량 보험’ 비교meta[${attrType}="${attrName}"]‘차량 보험’ 비교;
-      let meta = document.querySelector(selector);
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute(attrType, attrName);
-        document.head.appendChild(meta);
-      }
-      meta.content = content;
-    }
+function setMetaTag(attrType, attrName, content) {
+  // 백틱 대신 더하기 기호(+)를 사용하여 문자열 결합
+  let selector = 'meta[' + attrType + '="' + attrName + '"]';
+  
+  let meta = document.querySelector(selector);
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute(attrType, attrName);
+    document.head.appendChild(meta);
+  }
+  meta.content = content;
+}
 
     function updateSeoMetaTags(data) {
       // (A) Naver/Google 공통: Open Graph 수정일 (매우 중요)
@@ -835,13 +839,13 @@
       setMetaTag('name', 'date', data.formattedDate);
 
       // (D) 저작권 정보 갱신 (네이버 소유 확인 시 참고)
-      setMetaTag('name', 'copyright', ‘차량 보험’ 비교${data.year} ${document.title}‘차량 보험’ 비교);
+      // ********** 변경된 부분: 백틱 대신 + 기호 사용 **********
+      setMetaTag('name', 'copyright', data.year + ' ' + document.title);
     }
 
     // ----------------------------------------------------------------------
     // 4. [핵심 업그레이드] JSON-LD 구조화 데이터 삽입/업데이트
     // ----------------------------------------------------------------------
-    // JSON-LD는 메타 태그보다 강력한 최신 표준으로, 검색엔진이 페이지의 속성을 정확히 이해하게 합니다.
     function updateJsonLd(data) {
       let script = document.querySelector('script[type="application/ld+json"]');
       if (!script) {
@@ -850,17 +854,15 @@
         document.head.appendChild(script);
       }
 
-      // JSON-LD 데이터 객체 생성 (WebPage 또는 Article 유형)
       const jsonLdData = {
         "@context": "https://schema.org",
-        "@type": "WebPage", // 페이지 전체에 대한 정보
+        "@type": "WebPage", 
         "headline": document.title || window.location.hostname,
-        "dateModified": data.isoDateTime, // 핵심: 최신 업데이트 시간 기록
-        "datePublished": data.isoDateTime, // 발행일과 수정일이 같으면 최신으로 인식
+        "dateModified": data.isoDateTime, 
+        "datePublished": data.isoDateTime, 
         "name": document.title || window.location.hostname
       };
       
-      // 스크립트 태그 내용 업데이트
       script.textContent = JSON.stringify(jsonLdData, null, 2);
     }
 
@@ -873,18 +875,6 @@
     updateJsonLd(timeData);
   })();
 </script>
-
-
-
-
-
-
-
-
-<script type="text/javascript">!function(t,n){n=n||"ntm";window["ntm_"+t]=n,window[n]=window[n]||[],window[n].push({"ntm.start":+new Date});t=document.getElementsByTagName("script")[0],n=document.createElement("script");n.async=!0,n.src="https://ntm.pstatic.net/scripts/ntm_092eb2d60ae1.js",t.parentNode.insertBefore(n,t)}("092eb2d60ae1","ntm");</script><link rel="preload" href="https://financial.pstatic.net/insurance/_next/static/css/4196285b1d4a2a8e.css" as="style" crossorigin="anonymous"/><link rel="stylesheet" href="https://financial.pstatic.net/insurance/_next/static/css/4196285b1d4a2a8e.css" crossorigin="anonymous" data-n-g=""/><link rel="preload" href="https://financial.pstatic.net/insurance/_next/static/css/5de10506caefbb1b.css" as="style" crossorigin="anonymous"/><link rel="stylesheet" href="https://financial.pstatic.net/insurance/_next/static/css/5de10506caefbb1b.css" crossorigin="anonymous" data-n-p=""/><noscript data-n-css=""></noscript><script defer="" crossorigin="anonymous" nomodule="" src="https://financial.pstatic.net/insurance/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/webpack-2d209b091ef4f75f.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/framework-28687832959fe93c.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/main-3350b21f0ea7f884.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/pages/_app-9de4f6e76f3337eb.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/a36818a7-19b84715b1418d0b.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/6880-8aadbf7488e72db1.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/7782-5c73eade4fb1210a.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/4639-af383241aa3aa94f.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/5249-9ca7138dc6dffac1.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/2976-1f9a2cec2da6f1f2.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/8955-6adb7ceb3865aaaa.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/7517-444f259c859b4736.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/6020-c27b5903bef02d35.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/3934-d1cd2a32d5fc1b45.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/4674-278e4f45dfb8ac16.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/chunks/pages/car-cb3e63270f2a88c9.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/qee9MRHtCSk3RlcWDwLgK/_buildManifest.js" defer="" crossorigin="anonymous"></script><script src="https://financial.pstatic.net/insurance/_next/static/qee9MRHtCSk3RlcWDwLgK/_ssgManifest.js" defer="" crossorigin="anonymous"></script><style data-styled="" data-styled-version="5.3.10"></style></head><span class="blind">‘차량 보험’ 비교</span></a></h2></div></header></div><div class=""></div></div></div></div><div class="FlexibleLayout-module_wrapper__9uXan"><div id="content" class="FlexibleLayout-module_inner__hGuDc FlexibleLayout-module_type-full-height__423Op CarInsuranceIntroWrapper_article__cN0e7"><h2 class="blind"></h2><div class="InfoSectionWithoutTicket_article__8ky_3"><div class="InfoSectionWithoutTicket_box__rW3ma"><h3 class="InfoSectionWithoutTicket_title__9eN8G">
-‘차량 보험’ 비교 더 아낄 수 있어요</h3><p class="InfoSectionWithoutTicket_sub-title__2NCx1"></p><div class="InfoSectionWithoutTicket_content__RhPK6"><div class="InfoSectionWithoutTicket_lottie-logo__hoXvX"><div class="InfoSectionWithoutTicket_inner__rPb_X"><img src="https://financial.pstatic.net/insurance/_next/static/media/car_logo_rolling.c8993bcc.png" class="InfoSectionWithoutTicket_loading-logo__78OFS" alt=""/></div></div><div class="InfoSectionWithoutTicket_lottie-number__lLFWR"><img src="https://financial.pstatic.net/insurance/_next/static/media/car_num_rolling.5f57f72f.png" class="InfoSectionWithoutTicket_loading-number__xAlrf" alt=""/></div><div class="InfoSectionBenefit_area-button__pAl7O"><button type="button" class="ButtonBox-module_article__b5G1- ButtonBox-module_medium__fgPwa ButtonBox-module_primary__1jjt- ButtonBox-module_fill__OrKk- ButtonBox-module_color-npayGreen__A2ds2 ButtonBox-module_type-wide__l6sGc" style="width:undefinedpx">
-1분만에 최저가 ‘차량 보험’ 비교 찾기</button></div></div></div></div>
-
 
 
 
@@ -958,3 +948,4 @@
 
 
 	
+
